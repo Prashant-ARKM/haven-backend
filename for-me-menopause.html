@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Haven&Her – For Me</title>
+
     <link rel="icon" type="image/png" href="projectlogo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,6 +19,7 @@
       --accent: #d28999;
       --border-soft: #f0d9df;
     }
+
 
     * { box-sizing: border-box; }
 
@@ -171,6 +173,44 @@
       font-size: 14px;
       color: var(--text-sub);
     }
+    .profile-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  padding: 10px;
+  display: none;
+}
+
+.profile-dropdown button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
 
     /* EXPANDED OVERLAY */
     .expanded {
@@ -217,44 +257,6 @@
       margin-bottom: 28px;
       padding: 4px 0;
     }
-    .profile-container {
-  position: relative;
-  cursor: pointer;
-}
-
-.profile-circle {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 18px;
-  text-transform: uppercase;
-}
-
-.profile-dropdown {
-  position: absolute;
-  top: 55px;
-  right: 0;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  padding: 10px;
-  display: none;
-}
-
-.profile-dropdown button {
-  background: none;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-}
 
     /* mobile */
     @media (max-width: 900px) {
@@ -268,152 +270,52 @@
       }
     }
 
-    /* ---------- GLOBAL INTERACTIVE FEEL ---------- */
+    /* --- PERIOD QUIZ STYLING --- */
 
-button {
-  font-family: 'Inter', sans-serif;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+.quiz {
+  max-width: 520px;
+  margin-top: 12px;
 }
 
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(210,137,153,0.35);
-  opacity: 0.95;
+.quiz label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 18px;
+  color: var(--text-main);
 }
 
-select, textarea {
-  transition: border 0.2s ease, box-shadow 0.2s ease;
-}
-
-select:focus, textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
-}
-
-/* ---------- TODAY CARD ---------- */
-
-.today-check {
-  max-width: 560px;
-}
-
-.today-check h3 {
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-
-.today-check select {
+.quiz select {
   width: 100%;
   padding: 12px 14px;
+  margin-top: 8px;
   border-radius: 14px;
   border: 1px solid var(--border-soft);
-  background: white;
-}
-
-.today-check .checkbox-group {
-  margin-top: 8px;
-  line-height: 1.9;
+  background: #fff;
   font-size: 14px;
-  color: var(--text-sub);
+  color: var(--text-main);
+  outline: none;
 }
 
-.today-check input[type="checkbox"] {
+.quiz select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.15);
+}
+
+.quiz input[type="checkbox"] {
+  margin-right: 8px;
   accent-color: var(--accent);
 }
 
-#todayResult {
-  margin-top: 26px;
-  padding: 22px;
-  border-radius: 20px;
-  background: #fff5f7;
-  border: 1px solid var(--border-soft);
-  animation: fadeIn 0.35s ease;
-}
-
-/* ---------- SLEEP & REST ---------- */
-
-.sleep-support ul {
-  margin-top: 10px;
-  padding-left: 18px;
-}
-
-.sleep-support li {
-  margin-bottom: 8px;
-  font-size: 15px;
-  color: var(--text-main);
-}
-
-/* subtle hover to feel interactive */
-.sleep-support li:hover {
-  color: var(--accent);
-}
-
-/* ---------- AI CARD (IS THIS NORMAL) ---------- */
-
-textarea {
+.quiz div {
+  margin-top: 8px;
+  line-height: 1.8;
   font-size: 14px;
-  line-height: 1.6;
-}
-
-#normalResult {
-  margin-top: 26px;
-  padding: 22px;
-  border-radius: 20px;
-  background: #ffffff;
-  border: 1px solid var(--border-soft);
-  animation: fadeIn 0.35s ease;
-}
-
-/* ---------- WHEN TO SEEK CARE (TAP TO REVEAL) ---------- */
-
-.checkin-list {
-  max-width: 580px;
-}
-
-.checkin-item {
-  background: #ffffff;
-  border: 1px solid var(--border-soft);
-  border-radius: 18px;
-  padding: 16px 18px;
-  margin-top: 14px;
-  cursor: pointer;
-  transition: box-shadow 0.25s ease, transform 0.2s ease;
-}
-
-.checkin-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
-}
-
-.checkin-title {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-main);
-}
-
-.checkin-body {
-  display: none;
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.6;
   color: var(--text-sub);
 }
 
-.checkin-item.open {
-  background: #fff5f7;
-  border-color: rgba(210,137,153,0.4);
-}
-
-.checkin-item.open .checkin-body {
-  display: block;
-  animation: fadeIn 0.25s ease;
-}
-
-/* ---------- SHARED BUTTON STYLE ---------- */
-
-.today-check button,
-.sleep-support button,
-#normal button {
+.quiz button {
+  margin-top: 28px;
   width: 100%;
   padding: 14px;
   border-radius: 18px;
@@ -423,57 +325,169 @@ textarea {
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ---------- MICRO-ANIMATIONS ---------- */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.quiz button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(210,137,153,0.35);
 }
 
-/* ===== IS THIS NORMAL – AI (MIDLIFE) ===== */
+/* --- RESULT BOX --- */
+
+#periodResult {
+  margin-top: 32px;
+  padding: 22px;
+  border-radius: 18px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+}
+
+#periodResult h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#periodResult p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-sub);
+  margin-bottom: 14px;
+}
+
+#periodResult ul {
+  padding-left: 18px;
+}
+
+#periodResult li {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+/* gentle reassurance note */
+#periodResult p:last-child {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 16px;
+}
+
+.off-check {
+  max-width: 520px;
+}
+
+.off-check label {
+  display: block;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.off-check select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+}
+
+.checkbox-group {
+  margin-top: 10px;
+  line-height: 1.8;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.off-check button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#offResult {
+  padding: 22px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+}
+
+.reveal-list {
+  max-width: 560px;
+}
+
+.reveal-item {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.reveal-item:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.reveal-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.reveal-body {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+.reveal-item.open .reveal-body {
+  display: block;
+}
+
+/* ========= AI SECTION – HAVEN&HER (FOR ME) ========= */
 
 .ai-section {
-  margin-top: 24px;
-  max-width: 560px;
+  margin-top: 20px;
 }
 
 /* Input */
 .ai-input {
   width: 100%;
-  min-height: 52px;
+  min-height: 48px;
   padding: 14px 16px;
-  border-radius: 18px;
+  border-radius: 16px;
   border: 1px solid var(--border-soft);
   background: #ffffff;
   font-family: 'Inter', sans-serif;
-  font-size: 14.5px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--text-main);
   resize: none;
+  outline: none;
 }
 
 .ai-input::placeholder {
-  color: #b69aa1;
+  color: #b59aa1;
 }
 
 .ai-input:focus {
-  outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
 }
 
 /* Button */
 .ai-soft-btn {
-  margin-top: 14px;
-  padding: 12px 22px;
+  margin-top: 12px;
+  padding: 12px 20px;
   border-radius: 18px;
   border: none;
   background: var(--accent);
@@ -499,13 +513,12 @@ textarea {
 .ai-response {
   margin-top: 18px;
   padding: 18px 20px;
-  border-radius: 18px;
+  border-radius: 16px;
   background: #fff5f7;
   border: 1px solid var(--border-soft);
   font-size: 14.5px;
   line-height: 1.65;
   color: var(--text-sub);
-  animation: fadeIn 0.3s ease;
 }
 
 /* Loading state */
@@ -537,121 +550,83 @@ textarea {
 </nav>
 
 
+
   <div class="page" id="page">
 
     <!-- LEFT -->
     <div class="left">
       <h1>This space is just for you.</h1>
       <p>
-        Menopause can affect how you feel physically, emotionally,
-        and mentally — often in ways that are hard to explain.
-      </p>
-      <p>
-        These tools help you understand what’s happening
-        and respond to yourself with care.
-      </p>
+  Changes during puberty and teenage years can affect
+  periods, energy, mood, and focus.
+  Many girls are told to ignore these changes —
+  but some signs should not be ignored.
+</p>
+
+<p>
+  This space helps you understand what is normal,
+  what needs attention,
+  and when it’s okay to ask for help.
+</p>
+
       <div class="divider"></div>
     </div>
 
     <!-- RIGHT -->
     <div class="right" id="cards">
 
-      <div class="card" onclick="openCard('today')">
-        <img src="dailycheck.jpeg" alt="">
-        <div class="card-content">
-          <h3>Today</h3>
-          <p>Check in with how you feel right now</p>
-        </div>
-      </div>
-
-      <div class="card" onclick="openCard('sleep')">
-        <img src="sleephealth.jpeg" alt="">
-        <div class="card-content">
-          <h3>Sleep & Rest</h3>
-          <p>Support recovery and energy</p>
-        </div>
-      </div>
-
-      <div class="card" onclick="openCard('normal')">
-        <img src="isthisnormal.jpeg" alt="">
-        <div class="card-content">
-          <h3>Is This Normal?</h3>
-          <p>Understand common changes</p>
-        </div>
-      </div>
-
-      <div class="card" onclick="openCard('care')">
-        <img src="clinicalcare.jpeg" alt="">
-        <div class="card-content">
-          <h3>When to Seek Care</h3>
-          <p>Know when extra help matters</p>
-        </div>
-      </div>
-
-      <!-- EXPANDED CONTENT -->
-    <div class="expanded" id="expanded">
-      <button class="back-btn" onclick="closeCard()">← Back</button>
-      <div id="expandedBody"></div>
+  <div class="card" onclick="openCard('today')">
+    <img src="todayteenager.jpeg" alt="">
+    <div class="card-content">
+      <h3>My Period Today</h3>
+      <p>Check pain, flow, and discomfort</p>
     </div>
+  </div>
 
+  <div class="card" onclick="openCard('off')">
+    <img src="feelsoff.png" alt="">
+    <div class="card-content">
+      <h3>Something Feels Off</h3>
+      <p>Tired, dizzy, or overwhelmed</p>
     </div>
+  </div>
+
+  <div class="card" onclick="openCard('normal')">
+    <img src="normalteenager.jpeg" alt="">
+    <div class="card-content">
+      <h3>Is This Normal for My Age?</h3>
+      <p>Understand puberty changes</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard('care')">
+    <img src="askadult.jpeg" alt="">
+    <div class="card-content">
+      <h3>When to Tell an Adult</h3>
+      <p>Know when help is important</p>
+    </div>
+  </div>
+
+  <!-- EXPANDED CONTENT -->
+  <div class="expanded" id="expanded">
+    <button class="back-btn" onclick="closeCard()">← Back</button>
+    <div id="expandedBody"></div>
+  </div>
+
+</div>
+
 
 
   </div>
   <script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-/* --- Gemini setup (add ONCE if not already present) --- */
 const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-/* --- Is This Normal (Midlife) AI --- */
-document.addEventListener("click", async function (e) {
-
-  if (e.target && e.target.id === "midlifeNormalBtn") {
-
-    const input = document.getElementById("midlifeNormalInput").value;
-    const output = document.getElementById("midlifeNormalResponse");
-
-    if (!input.trim()) {
-      output.innerHTML = "Try describing what you’ve been noticing first.";
-      return;
-    }
-
-    output.classList.add("loading");
-    output.innerHTML = "Thinking…";
-
-    try {
-      const result = await model.generateContent(`
-You are a calm, reassuring guide in a menopause support app.
-
-Do NOT diagnose.
-Do NOT use alarming language.
-Keep the response brief and supportive.
-
-Explain:
-1. Whether this is commonly experienced during menopause
-2. One hormonal or body-related reason
-3. When it may be worth speaking to a healthcare professional
-
-Experience described:
-${input}
-`);
-
-      output.innerHTML =
-        result.response.text().replace(/\\n/g, "<br>");
-
-    } catch (err) {
-      output.innerHTML =
-        "Something went wrong. Please try again in a moment.";
-    }
-
-    output.classList.remove("loading");
-  }
-});
 
 
 const firebaseConfig = {
@@ -700,12 +675,12 @@ if (mode !== "forme") {
   return;
 }
 
-  // Must be midlife
-  if (ageGroup !== "midlife") {
-    if (ageGroup === "teen") {
-      window.location.href = "for-me-teenage.html";
-    } else if (ageGroup === "adult") {
+  // Must be teen
+  if (ageGroup !== "teen") {
+    if (ageGroup === "adult") {
       window.location.href = "for-me-adult.html";
+    } else if (ageGroup === "midlife") {
+      window.location.href = "for-me-menopause.html";
     }
     return;
   }
@@ -735,161 +710,208 @@ window.addEventListener("click", (e) => {
 });
 
     const data = {
-      today: `
-  <h2>Today</h2>
+  today: `
+  <h2>How are you feeling today?</h2>
+  <p>Answer a few gentle questions to understand what your body might be going through.</p>
 
-  <p>
-    Hormonal changes during menopause can affect
-    energy, mood, warmth, and focus — and these
-    can change from day to day.
-  </p>
+  <div class="quiz">
 
-  <div class="today-check">
-
-    <h3>How is your energy today?</h3>
-    <select id="m_energy">
-      <option value="low">Very low</option>
-      <option value="medium">Okay</option>
-      <option value="high">Good</option>
+    <label>Pain level</label>
+    <select id="pain">
+      <option value="none">No pain</option>
+      <option value="mild">Mild</option>
+      <option value="moderate">Moderate</option>
+      <option value="severe">Severe</option>
     </select>
 
-    <h3 style="margin-top:20px;">How is your mood?</h3>
-    <select id="m_mood">
-      <option value="low">Low / irritable</option>
-      <option value="neutral">Neutral</option>
-      <option value="good">Good</option>
+    <label>Bleeding today</label>
+    <select id="flow">
+      <option value="light">Light</option>
+      <option value="normal">Normal</option>
+      <option value="heavy">Heavy</option>
+      <option value="very-heavy">Very heavy</option>
     </select>
 
-    <h3 style="margin-top:20px;">Are you feeling any of these today?</h3>
-    <div class="checkbox-group">
-      <input type="checkbox" id="hot"> Hot flashes / warmth<br>
-      <input type="checkbox" id="brain"> Brain fog<br>
-      <input type="checkbox" id="joint"> Joint aches<br>
-      <input type="checkbox" id="head"> Headache<br>
-      <input type="checkbox" id="none"> None of these
+    <label>Any of these?</label>
+    <div>
+      <input type="checkbox" id="tired"> Very tired<br>
+      <input type="checkbox" id="dizzy"> Dizziness<br>
+      <input type="checkbox" id="headache"> Headache<br>
+      <input type="checkbox" id="backpain"> Lower back pain
     </div>
 
-    <br>
-    <button onclick="analyzeTodayMidlife()">Understand today</button>
+    <label>Is it affecting your day?</label>
+    <select id="impact">
+      <option value="ok">I’m okay</option>
+      <option value="uncomfortable">A little uncomfortable</option>
+      <option value="cant-focus">I can’t focus / attend school</option>
+    </select>
 
-    <div id="todayResult" style="margin-top:24px;"></div>
+    <br><br>
+    <button onclick="analyzePeriod()">Check</button>
+
+    <div id="periodResult" style="margin-top:20px;"></div>
   </div>
 `,
 
-      normal: `
-  <h2>Is This Normal?</h2>
+
+  off: `
+  <h2>Something Feels Off</h2>
 
   <p>
-    Many changes during menopause are common,
-    even if no one talked about them before.
+    This check helps you understand whether what you’re feeling
+    is a short-term phase or something you should talk to an adult about.
+  </p>
+
+  <div class="off-check">
+
+    <h3>1. What have you been feeling recently?</h3>
+    <p style="font-size:13px;color:#6f555c;">
+      Choose anything that matches how you’ve been feeling.
+    </p>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="s_tired"> Tired even after sleeping<br>
+      <input type="checkbox" id="s_dizzy"> Dizziness or light-headedness<br>
+      <input type="checkbox" id="s_headache"> Headaches often<br>
+      <input type="checkbox" id="s_weak"> Feeling weak or low energy<br>
+      <input type="checkbox" id="s_mood"> Sudden mood swings or sadness<br>
+      <input type="checkbox" id="s_focus"> Trouble concentrating<br>
+      <input type="checkbox" id="s_nausea"> Nausea<br>
+      <input type="checkbox" id="s_notme"> Feeling “not like myself”
+    </div>
+
+    <h3 style="margin-top:24px;">2. How long has this been happening?</h3>
+    <select id="offDuration">
+      <option value="today">Just today</option>
+      <option value="days">For a few days</option>
+      <option value="weeks">For more than 2 weeks</option>
+    </select>
+
+    <h3 style="margin-top:24px;">3. Is this affecting your daily life?</h3>
+    <p style="font-size:13px;color:#6f555c;">
+      Even small effects are important.
+    </p>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="d_school"> Problems with school or classes<br>
+      <input type="checkbox" id="d_focus"> Can’t focus properly<br>
+      <input type="checkbox" id="d_sleep"> Sleep is disturbed<br>
+      <input type="checkbox" id="d_food"> Appetite is reduced<br>
+      <input type="checkbox" id="d_social"> Avoid talking to people
+    </div>
+
+    <h3 style="margin-top:24px;">4. Does this seem linked to your periods?</h3>
+    <select id="offPeriodLink">
+      <option value="yes">Mostly during or before my periods</option>
+      <option value="no">It happens even when I’m not on my period</option>
+      <option value="unsure">I’m not sure</option>
+    </select>
+
+    <br><br>
+    <button onclick="analyzeOff()">Help me decide</button>
+
+    <div id="offResult" style="margin-top:28px;"></div>
+  </div>
+`,
+
+
+  normal: `
+  <h2>Is This Normal for My Age?</h2>
+
+  <p>
+    During teenage years, your body is learning new rhythms.
+    Changes in energy, mood, skin, sleep, and periods are common.
   </p>
 
   <p>
-    You can describe what you’re experiencing below.
-    This helps you understand whether it’s commonly part
-    of menopause or worth checking in about.
+    This space helps you understand whether what you're experiencing
+    is usually part of growing up or something that needs attention.
   </p>
 
   <div class="ai-section">
     <textarea
-      id="midlifeNormalInput"
+      id="aiInput"
       class="ai-input"
-      placeholder="For example: sudden fatigue, brain fog, mood swings, warmth, joint pain..."></textarea>
+      placeholder="Describe what’s happening in your body or mood..."></textarea>
 
-    <button id="midlifeNormalBtn" class="ai-soft-btn">
+    <button id="aiBtn" class="ai-soft-btn">
       Help me understand
     </button>
 
-    <div id="midlifeNormalResponse" class="ai-response"></div>
+    <div id="aiResponse" class="ai-response"></div>
   </div>
 `
 ,
-      sleep: `
-  <h2>Sleep & Rest</h2>
+
+  care: `
+  <h2>When to Tell an Adult</h2>
 
   <p>
-    During menopause, sleep can feel lighter,
-    interrupted, or unrefreshing.
-    This is often linked to hormonal shifts,
-    not personal failure.
+    Some signs are important enough that you should not handle them alone.
+    Tap each one to understand why.
   </p>
 
-  <div class="sleep-support">
+  <div class="reveal-list">
 
-    <h3>Common reasons sleep feels harder</h3>
-    <ul>
-      <li>Night warmth or sweating</li>
-      <li>Increased alertness at night</li>
-      <li>Anxiety or racing thoughts</li>
-      <li>Early waking</li>
-    </ul>
-
-    <h3 style="margin-top:20px;">What can help support rest</h3>
-    <ul>
-      <li>Consistent sleep and wake times</li>
-      <li>Cool, dark sleeping environment</li>
-      <li>Gentle evening routines</li>
-      <li>Daytime rest when needed</li>
-    </ul>
-
-    <p style="font-size:14px;color:#6f555c;margin-top:16px;">
-      Rest does not only mean sleep — pauses during the day matter too.
-    </p>
-  </div>
-`,
-
-      care: `
-  <h2>When to Seek Care</h2>
-
-  <p>
-    While many menopause changes are expected,
-    some signs should be discussed with a healthcare professional.
-    Tap to understand why.
-  </p>
-
-  <div class="checkin-list">
-
-    <div class="checkin-item" onclick="toggleCheckin(this)">
-      <div class="checkin-title">Symptoms that keep getting worse</div>
-      <div class="checkin-body">
-        Worsening symptoms may need medical support
-        to prevent long-term impact on health.
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Severe pain</div>
+      <div class="reveal-body">
+        Pain that stops you from going to school, sleeping, or doing daily activities
+        is not normal and needs adult attention.
       </div>
     </div>
 
-    <div class="checkin-item" onclick="toggleCheckin(this)">
-      <div class="checkin-title">Bleeding after long gaps or post-menopause</div>
-      <div class="checkin-body">
-        Unexpected bleeding should always be evaluated
-        to rule out underlying conditions.
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Very heavy bleeding</div>
+      <div class="reveal-body">
+        If you are soaking pads every 1–2 hours or bleeding for more than 7 days,
+        this can be unsafe and should be told to an adult.
       </div>
     </div>
 
-    <div class="checkin-item" onclick="toggleCheckin(this)">
-      <div class="checkin-title">Sleep loss affecting daily functioning</div>
-      <div class="checkin-body">
-        Persistent poor sleep can impact heart, mood,
-        and metabolic health.
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Feeling faint or collapsing</div>
+      <div class="reveal-body">
+        Feeling like you might faint, blacking out, or collapsing
+        can mean your body is under stress and needs help.
       </div>
     </div>
 
-    <div class="checkin-item" onclick="toggleCheckin(this)">
-      <div class="checkin-title">Ongoing anxiety or low mood</div>
-      <div class="checkin-body">
-        Mental health support is just as important
-        as physical care during menopause.
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Feeling extremely tired most days</div>
+      <div class="reveal-body">
+        Being tired once is normal. Feeling exhausted most days,
+        even after resting, should be discussed with an adult.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Feeling unwell for weeks</div>
+      <div class="reveal-body">
+        If something has been bothering you for weeks instead of days,
+        it’s a sign to involve someone who can help.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Something feels scary or confusing</div>
+      <div class="reveal-body">
+        Even if you can’t explain it clearly,
+        feeling scared or confused is a valid reason to talk to an adult.
       </div>
     </div>
 
   </div>
 
-  <p style="font-size:14px;color:#6f555c;margin-top:18px;">
-    Seeking care is not overreacting —
-    it’s informed self-care.
+  <p style="margin-top:20px;font-size:14px;color:#6f555c;">
+    Talking to an adult is not complaining.
+    It’s how health problems are prevented early.
   </p>
 `,
 
-    };
+};
+
 
     window.openCard = function (key) {
       document.getElementById("expandedBody").innerHTML = data[key];
@@ -905,41 +927,151 @@ window.addEventListener("click", (e) => {
     }
 
 
-    window.analyzeTodayMidlife = function () {
-  const energy = document.getElementById("m_energy").value;
-  const mood = document.getElementById("m_mood").value;
+    window.analyzePeriod = function () {
+  const pain = document.getElementById("pain").value;
+  const flow = document.getElementById("flow").value;
+  const impact = document.getElementById("impact").value;
 
-  let explanation =
-    "Fluctuating estrogen levels during menopause can cause day-to-day changes in energy, mood, and physical comfort.";
+  const tired = document.getElementById("tired").checked;
+  const dizzy = document.getElementById("dizzy").checked;
 
+  let level = "green";
+  let happening = "";
   let help = [];
 
-  if (energy === "low") {
-    help.push("Pace your day and prioritise rest");
+  if (pain === "severe" || flow === "very-heavy") {
+    level = "red";
+  } else if (pain === "moderate" || flow === "heavy") {
+    level = "yellow";
   }
-  if (mood === "low") {
-    help.push("Gentle movement or quiet time may help stabilise mood");
+
+  if (level === "green") {
+    happening =
+      "Your body is shedding the uterine lining. Mild pain and tiredness are common during periods, especially in teenage years.";
   }
 
-  help.push("Hydration and regular meals support hormonal balance");
-  help.push("Tracking patterns over time can be helpful");
+  if (level === "yellow") {
+    happening =
+      "Stronger cramps or heavier bleeding happen when the uterus contracts more. This can make you feel tired or uncomfortable.";
+  }
 
-  document.getElementById("todayResult").innerHTML = `
-    <h3>What may be influencing today</h3>
-    <p>${explanation}</p>
+  if (level === "red") {
+    happening =
+      "Strong pain or very heavy bleeding can mean your body is under extra strain. This should not be ignored.";
+  }
 
-    <h3>What may help</h3>
+  help.push("Rest when possible");
+  help.push("Warm water or a heating pad on your lower abdomen");
+  help.push("Drink water and eat regular meals");
+
+  if (impact === "cant-focus") {
+    help.push("Talk to a trusted adult about how today feels");
+  }
+
+  if (level === "red") {
+    help.push("Please tell a trusted adult or see a doctor");
+  }
+
+  const resultBox = document.getElementById("periodResult");
+
+  resultBox.innerHTML = `
+    <h3>What might be happening</h3>
+    <p>${happening}</p>
+
+    <h3>What can help today</h3>
     <ul>${help.map(h => `<li>${h}</li>`).join("")}</ul>
 
     <p style="font-size:13px;color:#6f555c;">
-      This is not a diagnosis — just a way to listen to your body.
+      Everyone’s body is different. Asking for help is always okay.
     </p>
   `;
 };
 
-window.toggleCheckin = function (item) {
+window.analyzeOff = function () {
+  const duration = document.getElementById("offDuration").value;
+
+  const symptomCount = [
+    s_tired, s_dizzy, s_headache, s_weak,
+    s_mood, s_focus, s_nausea, s_notme
+  ].filter(el => document.getElementById(el.id).checked).length;
+
+  const lifeImpact = [
+    d_school, d_focus, d_sleep, d_food, d_social
+  ].filter(el => document.getElementById(el.id).checked).length;
+
+  let title = "";
+  let explanation = "";
+  let nextStep = "";
+
+  if (duration === "today" && lifeImpact === 0) {
+    title = "This looks temporary";
+    explanation =
+      "Everyone has off days. What you’re feeling doesn’t look urgent right now.";
+    nextStep =
+      "Rest, eat well, and see how you feel over the next few days.";
+  } 
+  else if (duration === "days" || lifeImpact >= 1) {
+    title = "This needs attention";
+    explanation =
+      "When feelings last for days or affect daily life, it’s a sign to take them seriously.";
+    nextStep =
+      "Talking to a trusted adult can help you understand what to do next.";
+  } 
+  else {
+    title = "Please don’t ignore this";
+    explanation =
+      "Feeling unwell for weeks or having multiple daily life problems should not be handled alone.";
+    nextStep =
+      "Please tell a parent, guardian, or another trusted adult.";
+  }
+
+  document.getElementById("offResult").innerHTML = `
+    <h3>${title}</h3>
+    <p>${explanation}</p>
+    <p style="font-weight:500;">${nextStep}</p>
+
+    <p style="font-size:13px;color:#6f555c;margin-top:12px;">
+      You’re not weak for asking for help.
+    </p>
+  `;
+};
+
+window.toggleReveal = function (item) {
   item.classList.toggle("open");
 };
+
+document.addEventListener("click", async function(e) {
+
+  if (e.target && e.target.id === "aiBtn") {
+
+    const input = document.getElementById("aiInput").value;
+    const output = document.getElementById("aiResponse");
+
+    if (!input.trim()) {
+      output.innerHTML = "Please describe something first.";
+      return;
+    }
+
+    output.innerHTML = "Thinking…";
+
+    const result = await model.generateContent(`
+You are inside a teen health support app.
+
+Do not diagnose.
+Be calm and reassuring.
+
+Explain simply what this might mean
+and when to ask an adult.
+
+Situation:
+${input}
+`);
+
+    output.innerHTML =
+      result.response.text().replace(/\n/g, "<br>");
+  }
+
+});
 
 
   </script>
