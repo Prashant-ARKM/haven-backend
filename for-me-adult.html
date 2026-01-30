@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Haven&Her – For Me</title>
+    <link rel="icon" type="image/png" href="projectlogo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Fonts -->
@@ -134,6 +135,7 @@
       gap: 24px;
       overflow: hidden;
       position: relative; /* 🔑 THIS IS THE KEY */
+      height: 520px;
     }
 
     .card {
@@ -267,6 +269,190 @@
         grid-template-columns: 1fr;
       }
     }
+
+
+    .today-check {
+  max-width: 560px;
+}
+
+.today-check select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+}
+
+.today-check h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.today-check button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#todayResult {
+  padding: 22px;
+  border-radius: 18px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+}
+
+.pcos-check {
+  max-width: 560px;
+}
+
+.pcos-check h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.pcos-check select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+}
+
+.pcos-check button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#pcosResult {
+  padding: 22px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+}
+
+.checkin-list {
+  max-width: 580px;
+}
+
+.checkin-item {
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.checkin-item:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.checkin-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.checkin-body {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+.checkin-item.open .checkin-body {
+  display: block;
+}
+
+/* ===== BODY SIGNALS – AI ===== */
+
+.ai-section {
+  margin-top: 24px;
+  max-width: 560px;
+}
+
+/* textarea */
+.ai-input {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-main);
+  resize: none;
+  outline: none;
+}
+
+.ai-input::placeholder {
+  color: #b79aa1;
+}
+
+.ai-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
+}
+
+/* button */
+.ai-soft-btn {
+  margin-top: 14px;
+  padding: 12px 22px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ai-soft-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(210,137,153,0.35);
+}
+
+.ai-soft-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* response */
+.ai-response {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-sub);
+}
+
+/* loading */
+.ai-response.loading {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+
   </style>
 </head>
 
@@ -358,6 +544,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
@@ -440,74 +631,379 @@ window.addEventListener("click", (e) => {
 
     const data = {
   today: `
-    <h2>Today & My Cycle</h2>
-    <p>
-      Your menstrual cycle affects energy,
-      mood, focus, and physical comfort.
-      Changes in your cycle can be an early
-      signal of hormonal imbalance.
-    </p>
-    <p>
-      Noticing how you feel today helps
-      you understand what your body is responding to.
-    </p>
-  `,
+  <h2>Today & My Cycle</h2>
+
+  <p>
+    Your menstrual cycle can affect energy, mood,
+    focus, and physical comfort — even outside your period.
+    This check helps you understand how today might fit into that.
+  </p>
+
+  <div class="today-check">
+
+    <h3>1. Where are you in your cycle?</h3>
+    <select id="cyclePhase">
+      <option value="period">On my period</option>
+      <option value="before">A few days before my period</option>
+      <option value="after">Just after my period</option>
+      <option value="mid">Middle of my cycle</option>
+      <option value="unsure">I’m not sure</option>
+    </select>
+
+    <h3 style="margin-top:22px;">2. How is your energy today?</h3>
+    <select id="energyLevel">
+      <option value="low">Very low</option>
+      <option value="medium">Okay but not great</option>
+      <option value="high">Good / energetic</option>
+    </select>
+
+    <h3 style="margin-top:22px;">3. How is your mood?</h3>
+    <select id="mood">
+      <option value="low">Low / irritable</option>
+      <option value="neutral">Neutral</option>
+      <option value="good">Good</option>
+    </select>
+
+    <h3 style="margin-top:22px;">4. Are you feeling any of these today?</h3>
+    <div class="checkbox-group">
+      <input type="checkbox" id="bloating"> Bloating<br>
+      <input type="checkbox" id="cramps"> Cramps<br>
+      <input type="checkbox" id="headache"> Headache<br>
+      <input type="checkbox" id="breast"> Breast tenderness<br>
+      <input type="checkbox" id="none"> None of these
+    </div>
+
+    <br>
+    <button onclick="analyzeTodayAdult()">Understand today</button>
+
+    <div id="todayResult" style="margin-top:26px;"></div>
+  </div>
+`,
+
 
   pcos: `
-    <h2>Stress, Hormones, or PCOS?</h2>
-    <p>
-      Persistent fatigue, irregular periods,
-      mood changes, acne, or hair changes
-      are often blamed on stress.
+  <h2>Stress, Hormones, or PCOS?</h2>
+
+  <p>
+    Many symptoms linked to hormonal imbalance
+    are often blamed on stress, work, or routine changes.
+    This check helps you understand when it may be time
+    to look beyond stress alone.
+  </p>
+
+  <div class="pcos-check">
+
+    <h3>In the last 6 months, have you noticed any of these?</h3>
+    <p style="font-size:13px;color:#6f555c;">
+      Choose what applies to you. You don’t need to be exact.
     </p>
-    <p>
-      When these symptoms do not improve
-      with rest or routine changes,
-      hormonal conditions like PCOS or PCOD
-      may need to be considered.
-    </p>
-  `,
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="p_irregular">
+      Periods are irregular, very delayed, or skipped<br>
+
+      <input type="checkbox" id="p_acne">
+      Persistent acne that does not improve easily<br>
+
+      <input type="checkbox" id="p_hair">
+      Increased facial/body hair or noticeable hair thinning<br>
+
+      <input type="checkbox" id="p_weight">
+      Weight gain that feels hard to manage despite effort<br>
+
+      <input type="checkbox" id="p_fatigue">
+      Ongoing fatigue even with rest<br>
+
+      <input type="checkbox" id="p_cravings">
+      Strong sugar cravings or frequent energy crashes
+    </div>
+
+    <h3 style="margin-top:24px;">
+      Have these symptoms continued despite rest or routine changes?
+    </h3>
+    <select id="persistence">
+      <option value="no">No, they improve with rest or routine changes</option>
+      <option value="somewhat">They improve a little, but not fully</option>
+      <option value="yes">No improvement despite efforts</option>
+    </select>
+
+    <br><br>
+    <button onclick="analyzePCOS()">Help me understand</button>
+
+    <div id="pcosResult" style="margin-top:28px;"></div>
+  </div>
+`,
+
 
   signals: `
-    <h2>Body Signals</h2>
-    <p>
-      Your body often shows small signs
-      before larger health issues develop.
-    </p>
-    <p>
-      Ongoing bloating, low energy,
-      sugar cravings, or skin changes
-      can reflect internal hormonal shifts.
-    </p>
-  `,
+  <h2>Body Signals</h2>
+
+  <p>
+    Your body often shows subtle signals
+    before larger health issues develop.
+    These signs are easy to dismiss,
+    especially when life feels busy.
+  </p>
+
+  <p>
+    You can describe what you’ve been noticing below.
+    This tool helps you reflect on whether these signals
+    are commonly temporary or worth checking in on.
+  </p>
+
+  <div class="ai-section">
+    <textarea
+      id="signalsInput"
+      class="ai-input"
+      placeholder="For example: bloating most days, low energy, sugar cravings, skin changes..."></textarea>
+
+    <button id="signalsBtn" class="ai-soft-btn">
+      Help me understand
+    </button>
+
+    <div id="signalsResponse" class="ai-response"></div>
+  </div>
+`
+,
 
   care: `
-    <h2>When to Check In</h2>
-    <p>
-      Seeking medical advice is important
-      when symptoms are persistent,
-      worsening, or affecting daily life.
-    </p>
-    <p>
-      Early consultation can prevent
-      long-term complications and delayed diagnosis.
-    </p>
-  `
+  <h2>When to Check In</h2>
+
+  <p>
+    Many people delay medical care because symptoms feel unclear
+    or not “serious enough”.
+    These are situations where checking in with a doctor
+    is recommended.
+  </p>
+
+  <p style="font-size:14px;color:#6f555c;">
+    Tap on each to understand why it matters.
+  </p>
+
+  <div class="checkin-list">
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Periods becoming very irregular or stopping</div>
+      <div class="checkin-body">
+        Changes in cycle regularity can signal hormonal imbalance,
+        thyroid issues, or conditions like PCOS.
+        Early evaluation helps avoid delayed diagnosis.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Symptoms lasting for months, not weeks</div>
+      <div class="checkin-body">
+        Ongoing fatigue, bloating, mood changes, or discomfort
+        should not be ignored when they persist despite rest
+        or lifestyle changes.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Pain or discomfort affecting daily functioning</div>
+      <div class="checkin-body">
+        If pain interferes with work, sleep, exercise,
+        or concentration, it’s a sign your body needs support.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Symptoms getting worse over time</div>
+      <div class="checkin-body">
+        Worsening symptoms often indicate that waiting longer
+        may make treatment more difficult or recovery slower.
+      </div>
+    </div>
+
+    <div class="checkin-item" onclick="toggleCheckin(this)">
+      <div class="checkin-title">Uncertainty or concern that doesn’t go away</div>
+      <div class="checkin-body">
+        You do not need severe symptoms to seek care.
+        Feeling unsure, worried, or unlike yourself
+        is a valid reason to consult a professional.
+      </div>
+    </div>
+
+  </div>
+
+  <p style="margin-top:20px;font-size:14px;color:#6f555c;">
+    Seeking medical advice is not overreacting.
+    It’s a proactive step toward long-term health.
+  </p>
+`,
+
 };
 
 
-    function openCard(key) {
+    window.openCard = function (key) {
       document.getElementById("expandedBody").innerHTML = data[key];
       document.getElementById("expanded").classList.add("active");
-      document.getElementById("cards").style.opacity = "100";
+      document.getElementById("cards").style.opacity = "1";
       document.getElementById("cards").style.pointerEvents = "none";
     }
 
-    function closeCard() {
+    window.closeCard = function () {
       document.getElementById("expanded").classList.remove("active");
       document.getElementById("cards").style.opacity = "1";
       document.getElementById("cards").style.pointerEvents = "auto";
     }
+
+    
+    window.analyzeTodayAdult = function () {
+  const phase = document.getElementById("cyclePhase").value;
+  const energy = document.getElementById("energyLevel").value;
+  const mood = document.getElementById("mood").value;
+
+  let explanation = "";
+  let suggestions = [];
+
+  // EXPLANATION
+  if (phase === "period" || phase === "before") {
+    explanation =
+      "Lower estrogen and progesterone levels around this timecan lead to low energy, bloating, cramps, and mood changes.";
+  } 
+  else if (phase === "mid") {
+    explanation =
+      "Mid-cycle is often when estrogen is higher,which can support better energy and focus.";
+  } 
+  else {
+    explanation =
+      "Hormones shift throughout the cycle, and it’s normalfor energy and mood to vary from day to day.";
+  }
+
+  // SUGGESTIONS
+  if (energy === "low") {
+    suggestions.push("Prioritise rest and lighter tasks today");
+    suggestions.push("Eat regular meals and stay hydrated");
+  }
+
+  if (mood === "low") {
+    suggestions.push("Gentle movement or time outdoors may help");
+    suggestions.push("Avoid pushing yourself emotionally today");
+  }
+
+  if (phase === "period" || phase === "before") {
+    suggestions.push("Warm foods or a heating pad can ease discomfort");
+  }
+
+  suggestions.push("Tracking these patterns over time can be helpful");
+
+  document.getElementById("todayResult").innerHTML = `
+    <h3>What this may explain</h3>
+    <p>${explanation}</p>
+
+    <h3>What may help today</h3>
+    <ul>
+      ${suggestions.map(s => `<li>${s}</li>`).join("")}
+    </ul>
+
+    <p style="font-size:13px;color:#6f555c;">
+      This is not a diagnosis — just a way to understand your body better.
+    </p>
+  `;
+};
+
+
+window.analyzePCOS = function () {
+  const symptomCount = [
+    p_irregular,
+    p_acne,
+    p_hair,
+    p_weight,
+    p_fatigue,
+    p_cravings
+  ].filter(el => document.getElementById(el.id).checked).length;
+
+  const persistence = document.getElementById("persistence").value;
+
+  let title = "";
+  let explanation = "";
+  let guidance = "";
+
+  if (symptomCount <= 1 && persistence === "no") {
+    title = "This may be stress or lifestyle related";
+    explanation =
+      "Occasional symptoms can happen with stress, sleep changes, or routine disruptions.";
+    guidance =
+      "If symptoms change or increase over time, checking again can be helpful.";
+  }
+  else if (symptomCount >= 2 && persistence !== "yes") {
+    title = "This may need closer attention";
+    explanation =
+      "When multiple symptoms appear together, they may be influenced by hormones — not stress alone.";
+    guidance =
+      "A basic hormone check can provide clarity and peace of mind.";
+  }
+  else {
+    title = "A hormonal check may be worth considering";
+    explanation =
+      "Persistent symptoms affecting periods, skin, hair, weight, or energy should not be ignored.";
+    guidance =
+      "Consulting a gynecologist or endocrinologist can help rule out conditions like PCOS or PCOD.";
+  }
+
+  document.getElementById("pcosResult").innerHTML = `
+    <h3>${title}</h3>
+    <p>${explanation}</p>
+    <p style="font-weight:500;">${guidance}</p>
+
+    <p style="font-size:13px;color:#6f555c;margin-top:12px;">
+      This tool does not diagnose any condition.
+      It helps you decide when medical guidance may be useful.
+    </p>
+  `;
+};
+
+window.toggleCheckin = function (item) {
+  item.classList.toggle("open");
+};
+
+document.addEventListener("click", async function (e) {
+
+  if (e.target && e.target.id === "signalsBtn") {
+
+    const input = document.getElementById("signalsInput").value;
+    const output = document.getElementById("signalsResponse");
+
+    if (!input.trim()) {
+      output.innerHTML = "Try describing what you’ve been noticing first.";
+      return;
+    }
+
+    output.classList.add("loading");
+    output.innerHTML = "Thinking…";
+
+    try {
+      const result = await model.generateContent(`
+You are a calm, non-alarming guide inside an adult women's health app.
+
+Do NOT diagnose.
+Do NOT use scary language.
+Keep the response grounded and practical.
+
+Explain briefly:
+1. What these signals commonly reflect
+2. One possible lifestyle or hormonal factor
+3. When it may be worth checking in with a doctor
+
+Body signals described:
+${input}
+`);
+
+      output.innerHTML =
+        result.response.text().replace(/\n/g, "<br>");
+
+    } catch (err) {
+      output.innerHTML =
+        "Something went wrong. Please try again in a moment.";
+    }
+
+    output.classList.remove("loading");
+  }
+});
+
+
   </script>
 
 </body>
