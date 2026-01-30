@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Setup – Haven&Her</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f7f7f7;
+      --card-bg: #ffffff;
+      --text-main: #1f2933;
+      --text-sub: #6b7280;
+      --border: #e5e7eb;
+      --accent: #374151;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .setup-box {
+      width: 360px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      background: #fff;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f3f4f6;
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="setup-box">
+
+    <h2>Before we begin</h2>
+
+    <label for="mode">I am here</label>
+    <select id="mode">
+      <option value="">Select one</option>
+      <option value="forme">For myself</option>
+      <option value="support">To support someone else</option>
+    </select>
+
+    <label for="age">Life stage</label>
+    <select id="age">
+      <option value="">Select life stage</option>
+      <option value="teen">Teenage (12–19)</option>
+      <option value="adult">Adult (20–40)</option>
+      <option value="midlife">Menopausal(40+)</option>
+    </select>
+
+    <label for="relation">Relationship (if supporting someone)</label>
+    <select id="relation">
+      <option value="">Optional</option>
+      <option value="partner">Partner / Spouse</option>
+      <option value="parent">Parent</option>
+      <option value="sibling">Sibling</option>
+      <option value="child">Child</option>
+      <option value="caregiver">Caregiver</option>
+    </select>
+
+    <button onclick="saveSetup()">Continue</button>
+
+    <div class="note">
+      This information stays on your device and is only used
+      to guide what you see next.
+    </div>
+
+  </div>
+
+  <script>
+// Prefill if data exists
+window.addEventListener("DOMContentLoaded", () => {
+  const savedMode = localStorage.getItem("mode");
+  const savedAge = localStorage.getItem("ageGroup");
+  const savedRelation = localStorage.getItem("relation");
+
+  if (savedMode) document.getElementById("mode").value = savedMode;
+  if (savedAge) document.getElementById("age").value = savedAge;
+  if (savedRelation && savedRelation !== "self") {
+    document.getElementById("relation").value = savedRelation;
+  }
+});
+    function saveSetup() {
+  const mode = document.getElementById("mode").value;
+  const age = document.getElementById("age").value;
+  const relation = document.getElementById("relation").value;
+
+  if (!mode || !age) {
+    alert("Please select how you are using this space and the life stage.");
+    return;
+  }
+
+  localStorage.setItem("mode", mode);
+  localStorage.setItem("ageGroup", age);
+
+  if (mode === "support") {
+    localStorage.setItem("relation", relation || "unspecified");
+  } else {
+    localStorage.removeItem("relation");
+  }
+
+  // Always route through login
+  window.location.href = "login.html";
+}
+  </script>
+
+</body>
+</html>

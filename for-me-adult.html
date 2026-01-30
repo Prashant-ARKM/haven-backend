@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Haven&Her – For Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fce8ec;
+      --text-main: #3a2c30;
+      --text-sub: #6f555c;
+      --card-bg: #ffffff;
+      --accent: #d28999;
+      --border-soft: #f0d9df;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      overflow-x: hidden;
+      overflow-y:hidden;
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* background shapes */
+    .bg-shape {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      background: #fdecef;
+      border-radius: 50%;
+      top: -120px;
+      left: -120px;
+      z-index: -1;
+    }
+
+    .bg-shape-2 {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      background: #fdecef;
+      border-radius: 50%;
+      bottom: -160px;
+      right: -160px;
+      z-index: -1;
+    }
+
+    /* navbar */
+    .navbar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  background: rgba(255,245,247,0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(216,161,173,0.18);
+}
+
+.navbar-inner {
+  max-width: none;
+  margin: 0 auto;
+  padding: 18px 24px;
+
+  display: flex;
+  align-items: center;
+}
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+    }
+
+    /* PAGE LAYOUT (same as landing) */
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 12px;
+      padding: 32px 40px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 40px;
+      position: relative;
+    }
+
+    /* LEFT BOX */
+    .left {
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(6px);
+      border-radius: 28px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      line-height: 1.25;
+      margin-bottom: 22px;
+    }
+
+    .left p {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      width: 70px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.4;
+      margin-top: 24px;
+    }
+
+    /* RIGHT: cards */
+    .right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      overflow: hidden;
+      position: relative; /* 🔑 THIS IS THE KEY */
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(216,161,173,0.22);
+    }
+
+    .card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .card-content p {
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    /* EXPANDED OVERLAY */
+    .expanded {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(255,255,255,0.96);
+  border-radius: 22px;
+  padding: 36px;
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: all 0.3s ease;
+}
+
+
+    .expanded.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .expanded h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .expanded p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      margin-bottom: 14px;
+      max-width: 640px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 28px;
+      padding: 4px 0;
+    }
+    .profile-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  padding: 10px;
+  display: none;
+}
+
+.profile-dropdown button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+    /* mobile */
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+      }
+
+      .right {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-shape"></div>
+  <div class="bg-shape bg-shape-2"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner" style="display:flex; justify-content:space-between; align-items:center;">
+    <div class="nav-brand">Haven&Her</div>
+
+    <div class="profile-container">
+      <div class="profile-circle" id="profileCircle"></div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+  <div class="page" id="page">
+
+    <!-- LEFT -->
+    <div class="left">
+      <h1>This space is just for you.</h1>
+<p>
+  In your 20s and 30s, changes in your body are often
+  blamed on stress, work, or lifestyle.
+  But hormonal health also plays a major role.
+</p>
+<p>
+  These tools help you notice early signs,
+  understand what they could mean,
+  and decide when it’s time to check in with a professional.
+</p>
+
+      <div class="divider"></div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right" id="cards">
+
+      <div class="card" onclick="openCard('today')">
+  <img src="todayadult.jpeg" alt="">
+  <div class="card-content">
+    <h3>Today & My Cycle</h3>
+    <p>How your cycle and body feel today</p>
+  </div>
+</div>
+
+<div class="card" onclick="openCard('pcos')">
+  <img src="pcos.jpeg" alt="">
+  <div class="card-content">
+    <h3>Stress, Hormones, or PCOS?</h3>
+    <p>When symptoms don’t improve with rest</p>
+  </div>
+</div>
+
+<div class="card" onclick="openCard('signals')">
+  <img src="bodysignal.jpeg" alt="">
+  <div class="card-content">
+    <h3>Body Signals</h3>
+    <p>Small signs your body shows</p>
+  </div>
+</div>
+
+<div class="card" onclick="openCard('care')">
+  <img src="adultdoctor.jpeg" alt="">
+  <div class="card-content">
+    <h3>When to Check In</h3>
+    <p>Knowing when medical care matters</p>
+  </div>
+
+  
+</div>
+
+<!-- EXPANDED CONTENT -->
+<div class="expanded" id="expanded">
+  <button class="back-btn" onclick="closeCard()">← Back</button>
+  <div id="expandedBody"></div>
+</div>
+
+
+  </div>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut }
+from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
+  authDomain: "h-h-v1.firebaseapp.com",
+  projectId: "h-h-v1",
+  storageBucket: "h-h-v1.firebasestorage.app",
+  messagingSenderId: "786859596243",
+  appId: "1:786859596243:web:f0918769de98fda7f43726"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const profileCircle = document.getElementById("profileCircle");
+const profileDropdown = document.getElementById("profileDropdown");
+
+/* 🔒 Protect Page */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const mode = localStorage.getItem("mode");
+  const ageGroup = localStorage.getItem("ageGroup");
+
+  if (!mode || !ageGroup) {
+    window.location.href = "setup.html";
+    return;
+  }
+
+  // Must be For Me
+if (mode !== "forme") {
+  if (mode === "support") {
+    const age = localStorage.getItem("ageGroup");
+    if (age === "teen") {
+      window.location.href = "supportteenager.html";
+    } else {
+      window.location.href = "support.html";
+    }
+  } else {
+    window.location.href = "setup.html";
+  }
+  return;
+}
+
+  // Must be adult
+  if (ageGroup !== "adult") {
+    if (ageGroup === "teen") {
+      window.location.href = "for-me-teenage.html";
+    } else if (ageGroup === "midlife") {
+      window.location.href = "for-me-menopause.html";
+    }
+    return;
+  }
+
+  const name = user.displayName || user.email;
+  profileCircle.textContent = name.charAt(0).toUpperCase();
+});
+
+/* 🚪 Logout */
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+};
+
+if (profileCircle) {
+  profileCircle.addEventListener("click", () => {
+    profileDropdown.style.display =
+      profileDropdown.style.display === "block" ? "none" : "block";
+  });
+}
+
+window.addEventListener("click", (e) => {
+  if (!e.target.closest(".profile-container")) {
+    profileDropdown.style.display = "none";
+  }
+});
+
+    const data = {
+  today: `
+    <h2>Today & My Cycle</h2>
+    <p>
+      Your menstrual cycle affects energy,
+      mood, focus, and physical comfort.
+      Changes in your cycle can be an early
+      signal of hormonal imbalance.
+    </p>
+    <p>
+      Noticing how you feel today helps
+      you understand what your body is responding to.
+    </p>
+  `,
+
+  pcos: `
+    <h2>Stress, Hormones, or PCOS?</h2>
+    <p>
+      Persistent fatigue, irregular periods,
+      mood changes, acne, or hair changes
+      are often blamed on stress.
+    </p>
+    <p>
+      When these symptoms do not improve
+      with rest or routine changes,
+      hormonal conditions like PCOS or PCOD
+      may need to be considered.
+    </p>
+  `,
+
+  signals: `
+    <h2>Body Signals</h2>
+    <p>
+      Your body often shows small signs
+      before larger health issues develop.
+    </p>
+    <p>
+      Ongoing bloating, low energy,
+      sugar cravings, or skin changes
+      can reflect internal hormonal shifts.
+    </p>
+  `,
+
+  care: `
+    <h2>When to Check In</h2>
+    <p>
+      Seeking medical advice is important
+      when symptoms are persistent,
+      worsening, or affecting daily life.
+    </p>
+    <p>
+      Early consultation can prevent
+      long-term complications and delayed diagnosis.
+    </p>
+  `
+};
+
+
+    function openCard(key) {
+      document.getElementById("expandedBody").innerHTML = data[key];
+      document.getElementById("expanded").classList.add("active");
+      document.getElementById("cards").style.opacity = "100";
+      document.getElementById("cards").style.pointerEvents = "none";
+    }
+
+    function closeCard() {
+      document.getElementById("expanded").classList.remove("active");
+      document.getElementById("cards").style.opacity = "1";
+      document.getElementById("cards").style.pointerEvents = "auto";
+    }
+  </script>
+
+</body>
+</html>

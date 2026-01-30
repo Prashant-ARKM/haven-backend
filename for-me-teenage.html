@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Haven&Her – For Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fce8ec;
+      --text-main: #3a2c30;
+      --text-sub: #6f555c;
+      --card-bg: #ffffff;
+      --accent: #d28999;
+      --border-soft: #f0d9df;
+    }
+
+
+    * { box-sizing: border-box; }
+
+    body {
+      overflow: hidden;
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* background shapes */
+    .bg-shape {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      background: #fdecef;
+      border-radius: 50%;
+      top: -120px;
+      left: -120px;
+      z-index: -1;
+    }
+
+    .bg-shape-2 {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      background: #fdecef;
+      border-radius: 50%;
+      bottom: -160px;
+      right: -160px;
+      z-index: -1;
+    }
+
+    /* navbar */
+    .navbar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  background: rgba(255,245,247,0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(216,161,173,0.18);
+}
+
+.navbar-inner {
+  max-width: none;
+  margin: 0 auto;
+  padding: 18px 24px;
+
+  display: flex;
+  align-items: center;
+}
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+    }
+
+    /* PAGE LAYOUT (same as landing) */
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 12px;
+      padding: 32px 40px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 40px;
+      position: relative;
+    }
+
+    /* LEFT BOX */
+    .left {
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(6px);
+      border-radius: 28px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      line-height: 1.25;
+      margin-bottom: 22px;
+    }
+
+    .left p {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      width: 70px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.4;
+      margin-top: 24px;
+    }
+
+    /* RIGHT: cards */
+    .right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      overflow: hidden;
+      position: relative; /* 🔑 THIS IS THE KEY */
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(216,161,173,0.22);
+    }
+
+    .card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .card-content p {
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+    .profile-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  padding: 10px;
+  display: none;
+}
+
+.profile-dropdown button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+    /* EXPANDED OVERLAY */
+    .expanded {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(255,255,255,0.96);
+  border-radius: 22px;
+  padding: 36px;
+  overflow-y: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: all 0.3s ease;
+}
+
+
+    .expanded.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .expanded h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .expanded p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      margin-bottom: 14px;
+      max-width: 640px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 28px;
+      padding: 4px 0;
+    }
+
+    /* mobile */
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+      }
+
+      .right {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* --- PERIOD QUIZ STYLING --- */
+
+.quiz {
+  max-width: 520px;
+  margin-top: 12px;
+}
+
+.quiz label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 18px;
+  color: var(--text-main);
+}
+
+.quiz select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  background: #fff;
+  font-size: 14px;
+  color: var(--text-main);
+  outline: none;
+}
+
+.quiz select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.15);
+}
+
+.quiz input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: var(--accent);
+}
+
+.quiz div {
+  margin-top: 8px;
+  line-height: 1.8;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.quiz button {
+  margin-top: 28px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quiz button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(210,137,153,0.35);
+}
+
+/* --- RESULT BOX --- */
+
+#periodResult {
+  margin-top: 32px;
+  padding: 22px;
+  border-radius: 18px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+}
+
+#periodResult h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#periodResult p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-sub);
+  margin-bottom: 14px;
+}
+
+#periodResult ul {
+  padding-left: 18px;
+}
+
+#periodResult li {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+/* gentle reassurance note */
+#periodResult p:last-child {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 16px;
+}
+
+.off-check {
+  max-width: 520px;
+}
+
+.off-check label {
+  display: block;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.off-check select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+}
+
+.checkbox-group {
+  margin-top: 10px;
+  line-height: 1.8;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.off-check button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#offResult {
+  padding: 22px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+}
+
+.reveal-list {
+  max-width: 560px;
+}
+
+.reveal-item {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.reveal-item:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+
+.reveal-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.reveal-body {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-sub);
+}
+
+.reveal-item.open .reveal-body {
+  display: block;
+}
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-shape"></div>
+  <div class="bg-shape bg-shape-2"></div>
+
+<nav class="navbar">
+  <div class="navbar-inner" style="display:flex; justify-content:space-between; align-items:center;">
+    <div class="nav-brand">Haven&Her</div>
+
+    <div class="profile-container">
+      <div class="profile-circle" id="profileCircle"></div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+  <div class="page" id="page">
+
+    <!-- LEFT -->
+    <div class="left">
+      <h1>This space is just for you.</h1>
+      <p>
+  Changes during puberty and teenage years can affect
+  periods, energy, mood, and focus.
+  Many girls are told to ignore these changes —
+  but some signs should not be ignored.
+</p>
+
+<p>
+  This space helps you understand what is normal,
+  what needs attention,
+  and when it’s okay to ask for help.
+</p>
+
+      <div class="divider"></div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right" id="cards">
+
+  <div class="card" onclick="openCard('today')">
+    <img src="todayteenager.jpeg" alt="">
+    <div class="card-content">
+      <h3>My Period Today</h3>
+      <p>Check pain, flow, and discomfort</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard('off')">
+    <img src="feelsoff.png" alt="">
+    <div class="card-content">
+      <h3>Something Feels Off</h3>
+      <p>Tired, dizzy, or overwhelmed</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard('normal')">
+    <img src="normalteenager.jpeg" alt="">
+    <div class="card-content">
+      <h3>Is This Normal for My Age?</h3>
+      <p>Understand puberty changes</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard('care')">
+    <img src="askadult.jpeg" alt="">
+    <div class="card-content">
+      <h3>When to Tell an Adult</h3>
+      <p>Know when help is important</p>
+    </div>
+  </div>
+
+  <!-- EXPANDED CONTENT -->
+  <div class="expanded" id="expanded">
+    <button class="back-btn" onclick="closeCard()">← Back</button>
+    <div id="expandedBody"></div>
+  </div>
+
+</div>
+
+
+
+  </div>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut }
+from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
+  authDomain: "h-h-v1.firebaseapp.com",
+  projectId: "h-h-v1",
+  storageBucket: "h-h-v1.firebasestorage.app",
+  messagingSenderId: "786859596243",
+  appId: "1:786859596243:web:f0918769de98fda7f43726"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const profileCircle = document.getElementById("profileCircle");
+const profileDropdown = document.getElementById("profileDropdown");
+
+/* 🔒 Protect Page */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const mode = localStorage.getItem("mode");
+  const ageGroup = localStorage.getItem("ageGroup");
+
+  if (!mode || !ageGroup) {
+    window.location.href = "setup.html";
+    return;
+  }
+
+  // Must be For Me
+  // Must be For Me
+if (mode !== "forme") {
+  if (mode === "support") {
+    const age = localStorage.getItem("ageGroup");
+    if (age === "teen") {
+      window.location.href = "supportteenager.html";
+    } else {
+      window.location.href = "support.html";
+    }
+  } else {
+    window.location.href = "setup.html";
+  }
+  return;
+}
+
+  // Must be teen
+  if (ageGroup !== "teen") {
+    if (ageGroup === "adult") {
+      window.location.href = "for-me-adult.html";
+    } else if (ageGroup === "midlife") {
+      window.location.href = "for-me-menopause.html";
+    }
+    return;
+  }
+
+  const name = user.displayName || user.email;
+  profileCircle.textContent = name.charAt(0).toUpperCase();
+});
+
+/* 🚪 Logout */
+window.logout = function() {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+};
+
+if (profileCircle) {
+  profileCircle.addEventListener("click", () => {
+    profileDropdown.style.display =
+      profileDropdown.style.display === "block" ? "none" : "block";
+  });
+}
+
+window.addEventListener("click", (e) => {
+  if (!e.target.closest(".profile-container")) {
+    profileDropdown.style.display = "none";
+  }
+});
+
+    const data = {
+  today: `
+  <h2>How are you feeling today?</h2>
+  <p>Answer a few gentle questions to understand what your body might be going through.</p>
+
+  <div class="quiz">
+
+    <label>Pain level</label>
+    <select id="pain">
+      <option value="none">No pain</option>
+      <option value="mild">Mild</option>
+      <option value="moderate">Moderate</option>
+      <option value="severe">Severe</option>
+    </select>
+
+    <label>Bleeding today</label>
+    <select id="flow">
+      <option value="light">Light</option>
+      <option value="normal">Normal</option>
+      <option value="heavy">Heavy</option>
+      <option value="very-heavy">Very heavy</option>
+    </select>
+
+    <label>Any of these?</label>
+    <div>
+      <input type="checkbox" id="tired"> Very tired<br>
+      <input type="checkbox" id="dizzy"> Dizziness<br>
+      <input type="checkbox" id="headache"> Headache<br>
+      <input type="checkbox" id="backpain"> Lower back pain
+    </div>
+
+    <label>Is it affecting your day?</label>
+    <select id="impact">
+      <option value="ok">I’m okay</option>
+      <option value="uncomfortable">A little uncomfortable</option>
+      <option value="cant-focus">I can’t focus / attend school</option>
+    </select>
+
+    <br><br>
+    <button onclick="analyzePeriod()">Check</button>
+
+    <div id="periodResult" style="margin-top:20px;"></div>
+  </div>
+`,
+
+
+  off: `
+  <h2>Something Feels Off</h2>
+
+  <p>
+    This check helps you understand whether what you’re feeling
+    is a short-term phase or something you should talk to an adult about.
+  </p>
+
+  <div class="off-check">
+
+    <h3>1. What have you been feeling recently?</h3>
+    <p style="font-size:13px;color:#6f555c;">
+      Choose anything that matches how you’ve been feeling.
+    </p>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="s_tired"> Tired even after sleeping<br>
+      <input type="checkbox" id="s_dizzy"> Dizziness or light-headedness<br>
+      <input type="checkbox" id="s_headache"> Headaches often<br>
+      <input type="checkbox" id="s_weak"> Feeling weak or low energy<br>
+      <input type="checkbox" id="s_mood"> Sudden mood swings or sadness<br>
+      <input type="checkbox" id="s_focus"> Trouble concentrating<br>
+      <input type="checkbox" id="s_nausea"> Nausea<br>
+      <input type="checkbox" id="s_notme"> Feeling “not like myself”
+    </div>
+
+    <h3 style="margin-top:24px;">2. How long has this been happening?</h3>
+    <select id="offDuration">
+      <option value="today">Just today</option>
+      <option value="days">For a few days</option>
+      <option value="weeks">For more than 2 weeks</option>
+    </select>
+
+    <h3 style="margin-top:24px;">3. Is this affecting your daily life?</h3>
+    <p style="font-size:13px;color:#6f555c;">
+      Even small effects are important.
+    </p>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="d_school"> Problems with school or classes<br>
+      <input type="checkbox" id="d_focus"> Can’t focus properly<br>
+      <input type="checkbox" id="d_sleep"> Sleep is disturbed<br>
+      <input type="checkbox" id="d_food"> Appetite is reduced<br>
+      <input type="checkbox" id="d_social"> Avoid talking to people
+    </div>
+
+    <h3 style="margin-top:24px;">4. Does this seem linked to your periods?</h3>
+    <select id="offPeriodLink">
+      <option value="yes">Mostly during or before my periods</option>
+      <option value="no">It happens even when I’m not on my period</option>
+      <option value="unsure">I’m not sure</option>
+    </select>
+
+    <br><br>
+    <button onclick="analyzeOff()">Help me decide</button>
+
+    <div id="offResult" style="margin-top:28px;"></div>
+  </div>
+`,
+
+
+  normal: `
+    <h2>Is This Normal for My Age?</h2>
+    <p>
+      During puberty, changes in mood, skin,
+      appetite, and energy are common.
+    </p>
+    <p>
+      However, ongoing pain, extreme fatigue,
+      or very irregular periods may need medical advice.
+    </p>
+  `,
+
+  care: `
+  <h2>When to Tell an Adult</h2>
+
+  <p>
+    Some signs are important enough that you should not handle them alone.
+    Tap each one to understand why.
+  </p>
+
+  <div class="reveal-list">
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Severe pain</div>
+      <div class="reveal-body">
+        Pain that stops you from going to school, sleeping, or doing daily activities
+        is not normal and needs adult attention.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Very heavy bleeding</div>
+      <div class="reveal-body">
+        If you are soaking pads every 1–2 hours or bleeding for more than 7 days,
+        this can be unsafe and should be told to an adult.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Feeling faint or collapsing</div>
+      <div class="reveal-body">
+        Feeling like you might faint, blacking out, or collapsing
+        can mean your body is under stress and needs help.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Feeling extremely tired most days</div>
+      <div class="reveal-body">
+        Being tired once is normal. Feeling exhausted most days,
+        even after resting, should be discussed with an adult.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Feeling unwell for weeks</div>
+      <div class="reveal-body">
+        If something has been bothering you for weeks instead of days,
+        it’s a sign to involve someone who can help.
+      </div>
+    </div>
+
+    <div class="reveal-item" onclick="toggleReveal(this)">
+      <div class="reveal-title">Something feels scary or confusing</div>
+      <div class="reveal-body">
+        Even if you can’t explain it clearly,
+        feeling scared or confused is a valid reason to talk to an adult.
+      </div>
+    </div>
+
+  </div>
+
+  <p style="margin-top:20px;font-size:14px;color:#6f555c;">
+    Talking to an adult is not complaining.
+    It’s how health problems are prevented early.
+  </p>
+`,
+
+};
+
+
+    window.openCard = function (key) {
+      document.getElementById("expandedBody").innerHTML = data[key];
+      document.getElementById("expanded").classList.add("active");
+      document.getElementById("cards").style.opacity = "1";
+      document.getElementById("cards").style.pointerEvents = "none";
+    }
+
+    window.closeCard = function () {
+      document.getElementById("expanded").classList.remove("active");
+      document.getElementById("cards").style.opacity = "1";
+      document.getElementById("cards").style.pointerEvents = "auto";
+    }
+
+
+    window.analyzePeriod = function () {
+  const pain = document.getElementById("pain").value;
+  const flow = document.getElementById("flow").value;
+  const impact = document.getElementById("impact").value;
+
+  const tired = document.getElementById("tired").checked;
+  const dizzy = document.getElementById("dizzy").checked;
+
+  let level = "green";
+  let happening = "";
+  let help = [];
+
+  if (pain === "severe" || flow === "very-heavy") {
+    level = "red";
+  } else if (pain === "moderate" || flow === "heavy") {
+    level = "yellow";
+  }
+
+  if (level === "green") {
+    happening =
+      "Your body is shedding the uterine lining. Mild pain and tiredness are common during periods, especially in teenage years.";
+  }
+
+  if (level === "yellow") {
+    happening =
+      "Stronger cramps or heavier bleeding happen when the uterus contracts more. This can make you feel tired or uncomfortable.";
+  }
+
+  if (level === "red") {
+    happening =
+      "Strong pain or very heavy bleeding can mean your body is under extra strain. This should not be ignored.";
+  }
+
+  help.push("Rest when possible");
+  help.push("Warm water or a heating pad on your lower abdomen");
+  help.push("Drink water and eat regular meals");
+
+  if (impact === "cant-focus") {
+    help.push("Talk to a trusted adult about how today feels");
+  }
+
+  if (level === "red") {
+    help.push("Please tell a trusted adult or see a doctor");
+  }
+
+  const resultBox = document.getElementById("periodResult");
+
+  resultBox.innerHTML = `
+    <h3>What might be happening</h3>
+    <p>${happening}</p>
+
+    <h3>What can help today</h3>
+    <ul>${help.map(h => `<li>${h}</li>`).join("")}</ul>
+
+    <p style="font-size:13px;color:#6f555c;">
+      Everyone’s body is different. Asking for help is always okay.
+    </p>
+  `;
+};
+
+window.analyzeOff = function () {
+  const duration = document.getElementById("offDuration").value;
+
+  const symptomCount = [
+    s_tired, s_dizzy, s_headache, s_weak,
+    s_mood, s_focus, s_nausea, s_notme
+  ].filter(el => document.getElementById(el.id).checked).length;
+
+  const lifeImpact = [
+    d_school, d_focus, d_sleep, d_food, d_social
+  ].filter(el => document.getElementById(el.id).checked).length;
+
+  let title = "";
+  let explanation = "";
+  let nextStep = "";
+
+  if (duration === "today" && lifeImpact === 0) {
+    title = "This looks temporary";
+    explanation =
+      "Everyone has off days. What you’re feeling doesn’t look urgent right now.";
+    nextStep =
+      "Rest, eat well, and see how you feel over the next few days.";
+  } 
+  else if (duration === "days" || lifeImpact >= 1) {
+    title = "This needs attention";
+    explanation =
+      "When feelings last for days or affect daily life, it’s a sign to take them seriously.";
+    nextStep =
+      "Talking to a trusted adult can help you understand what to do next.";
+  } 
+  else {
+    title = "Please don’t ignore this";
+    explanation =
+      "Feeling unwell for weeks or having multiple daily life problems should not be handled alone.";
+    nextStep =
+      "Please tell a parent, guardian, or another trusted adult.";
+  }
+
+  document.getElementById("offResult").innerHTML = `
+    <h3>${title}</h3>
+    <p>${explanation}</p>
+    <p style="font-weight:500;">${nextStep}</p>
+
+    <p style="font-size:13px;color:#6f555c;margin-top:12px;">
+      You’re not weak for asking for help.
+    </p>
+  `;
+};
+
+window.toggleReveal = function (item) {
+  item.classList.toggle("open");
+};
+
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Haven&Her</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+  /* Backgrounds */
+  --bg: #fbf3f5;          /* soft blush background */
+  --card-bg: #ffffff;    /* clean white cards */
+
+  /* Text */
+  --text-main: #3a2c30;  /* deep warm charcoal */
+  --text-sub: #6f555c;   /* muted rose-brown */
+
+  /* Accent */
+  --accent: #c98997;     /* muted rose (main accent) */
+  --accent-soft: #f0d9df;/* soft blush for shapes & borders */
+
+  /* Borders */
+  --border-soft: #ead6db;
+}
+
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bg-shape {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      background: #f8dde3;
+      border-radius: 50%;
+      top: -120px;
+      left: -120px;
+      z-index: -1;
+    }
+
+    .bg-shape-2 {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      background: #f8dde3;
+      border-radius: 50%;
+      bottom: -160px;
+      right: -160px;
+      z-index: -1;
+    }
+
+
+    /* navbar */
+    .navbar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  background: rgba(251,243,245,0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(216,161,173,0.18);
+}
+
+.navbar-inner {
+  max-width: none;
+  margin: 0 auto;
+  padding: 18px 24px;
+
+  display: flex;
+  align-items: center;
+}
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      padding: 32px 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      margin-top: 12px;
+    }
+
+    .left {
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(6px);
+      border-radius: 28px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-height : 520px;
+    }
+
+    .left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-sub);
+      max-width: 520px;
+    }
+
+    .divider {
+      margin-top: 40px;
+      width: 80px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      height : 520px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+       flex: 1;
+  display: flex;
+  flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(216,161,173,0.22);
+    }
+
+    .card img {
+      width: 100%;
+  height: 90px;          /* IMPORTANT */
+  object-fit: cover;
+  flex-shrink: 0;
+    }
+
+    .card-content {
+      padding: 22px;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .card-content p {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .card-content button {
+      background: none;
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 12px 26px;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .card-content button:hover {
+      background: rgba(216,161,173,0.1);
+    }
+
+    .why {
+      width: 100%;
+      padding: 90px 24px;
+      display: flex;
+      justify-content: center;
+      border-top: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .why-container {
+      max-width: 720px;
+      text-align: center;
+    }
+
+    .why-container h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    .why-container p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      margin-bottom: 18px;
+    }
+
+    .why-soft {
+      margin-top: 32px;
+      font-size: 16px;
+      color: var(--text-main);
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+      }
+    }
+
+  .project-explain {
+  width: 100%;
+  padding: 110px 24px 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.explain-box {
+  max-width: 900px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(6px);
+  border-radius: 28px;
+  padding: 80px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+}
+
+.explain-block h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 22px;
+}
+
+.explain-block p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+
+.explain-block strong {
+  color: var(--text-main);
+}
+
+.impact-line {
+  margin-top: 28px;
+  font-size: 16px;
+  color: var(--text-main);
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-shape"></div>
+  <div class="bg-shape bg-shape-2"></div>
+
+  <div class="navbar">
+  <div class="navbar-inner">
+    <div class="nav-brand">Haven&Her</div>
+  </div>
+</div>
+
+  <div class="page">
+
+    <div class="left">
+      <h1>
+        You’re not imagining it.<br>
+        And you don’t have to face it alone.
+      </h1>
+
+      <div class="subtitle">
+        Haven&Her is a calm space for understanding menstrual health —
+        across different stages of life.
+        <br><br>
+        Whether you are noticing changes in your own body,
+        or trying to support someone you care about,
+        this space helps you notice early,
+        take concerns seriously,
+        and act before problems grow.
+      </div>
+
+      <div class="divider"></div>
+    </div>
+
+    <div class="right">
+
+      <div class="card">
+        <img src="women.png" alt="">
+        <div class="card-content">
+          <h3>For Me</h3>
+          <p>Pay attention to changes in your cycle, body, and energy</p>
+          <button onclick="selectMode('forme')">Continue</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="motherdaughter.jpg" alt="">
+        <div class="card-content">
+          <h3>To Support Someone</h3>
+          <p>Respond thoughtfully to changes you’re noticing</p>
+          <button onclick="selectMode('support')">Continue</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <section class="project-explain">
+
+  <div class="explain-box">
+
+    <div class="explain-block">
+      <h2>The problem we are solving</h2>
+      <p>
+        Menstrual health issues are rarely addressed early.
+        Across families, symptoms are ignored, normalized,
+        or dismissed as stress, age, or personality changes.
+      </p>
+      <p>
+        From teenage years to adulthood and menopause,
+        women are often told to “wait it out” —
+        until the problem becomes serious enough
+        to require medical intervention.
+      </p>
+    </div>
+
+    <div class="explain-block">
+      <h2>Why this problem is ignored</h2>
+      <p>
+        Menstrual health is still treated as a private,
+        uncomfortable topic inside families.
+        Conversations stop at periods —
+        not at pain, mood changes, fatigue,
+        or long-term hormonal effects.
+      </p>
+      <p>
+        As a result, families don’t know
+        what signs matter,
+        when to act,
+        or how to support without overreacting.
+      </p>
+    </div>
+
+    <div class="explain-block">
+      <h2>Our solution</h2>
+      <p>
+        Haven&Her is a menstrual health companion
+        designed for three life stages —
+        teenage, adult, and menopausal —
+        with two clear perspectives:
+        <strong>For Me</strong> and <strong>To Support Someone</strong>.
+      </p>
+      <p>
+        Instead of overwhelming users with data,
+        the platform focuses on noticing patterns,
+        identifying early warning signs,
+        and encouraging timely care —
+        before problems escalate.
+      </p>
+    </div>
+
+    <div class="explain-block">
+      <h2>Why Haven&Her is different</h2>
+      <p>
+        Most health apps focus on tracking or diagnosis.
+        Haven&Her focuses on <em>prevention and understanding</em>.
+      </p>
+      <p>
+        It brings menstrual health into family awareness —
+        helping daughters, partners, and caregivers
+        respond with empathy and clarity,
+        instead of confusion or silence.
+      </p>
+      <p class="impact-line">
+        By encouraging early attention,
+        Haven&Her aims to reduce delayed diagnosis,
+        untreated hormonal disorders,
+        and long-term health complications.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+function selectMode(mode) {
+
+  // Save selected mode
+  localStorage.setItem("mode", mode);
+
+  // Clear previous setup so evaluator can test again
+  localStorage.removeItem("relation");
+  localStorage.removeItem("ageGroup");
+
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
