@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Haven&Her – For Me</title>
+    <link rel="icon" type="image/png" href="projectlogo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Fonts -->
@@ -437,6 +438,83 @@ textarea {
   }
 }
 
+/* ===== IS THIS NORMAL – AI (MIDLIFE) ===== */
+
+.ai-section {
+  margin-top: 24px;
+  max-width: 560px;
+}
+
+/* Input */
+.ai-input {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-main);
+  resize: none;
+}
+
+.ai-input::placeholder {
+  color: #b69aa1;
+}
+
+.ai-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(210,137,153,0.18);
+}
+
+/* Button */
+.ai-soft-btn {
+  margin-top: 14px;
+  padding: 12px 22px;
+  border-radius: 18px;
+  border: none;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ai-soft-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(210,137,153,0.35);
+}
+
+.ai-soft-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Response */
+.ai-response {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #fff5f7;
+  border: 1px solid var(--border-soft);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-sub);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Loading state */
+.ai-response.loading {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+
   </style>
 </head>
 
@@ -524,6 +602,57 @@ textarea {
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+/* --- Gemini setup (add ONCE if not already present) --- */
+const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+/* --- Is This Normal (Midlife) AI --- */
+document.addEventListener("click", async function (e) {
+
+  if (e.target && e.target.id === "midlifeNormalBtn") {
+
+    const input = document.getElementById("midlifeNormalInput").value;
+    const output = document.getElementById("midlifeNormalResponse");
+
+    if (!input.trim()) {
+      output.innerHTML = "Try describing what you’ve been noticing first.";
+      return;
+    }
+
+    output.classList.add("loading");
+    output.innerHTML = "Thinking…";
+
+    try {
+      const result = await model.generateContent(`
+You are a calm, reassuring guide in a menopause support app.
+
+Do NOT diagnose.
+Do NOT use alarming language.
+Keep the response brief and supportive.
+
+Explain:
+1. Whether this is commonly experienced during menopause
+2. One hormonal or body-related reason
+3. When it may be worth speaking to a healthcare professional
+
+Experience described:
+${input}
+`);
+
+      output.innerHTML =
+        result.response.text().replace(/\\n/g, "<br>");
+
+    } catch (err) {
+      output.innerHTML =
+        "Something went wrong. Please try again in a moment.";
+    }
+
+    output.classList.remove("loading");
+  }
+});
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBXEUA6m10uR0-pTV4IewWmUxTVU-_8cfs",
@@ -648,16 +777,33 @@ window.addEventListener("click", (e) => {
 `,
 
       normal: `
-        <h2>Is This Normal?</h2>
-        <p>
-          Many changes during menopause are common,
-          even if no one talked about them before.
-        </p>
-        <p>
-          Mood shifts, fatigue, warmth, and brain fog
-          are shared experiences for many women.
-        </p>
-      `,
+  <h2>Is This Normal?</h2>
+
+  <p>
+    Many changes during menopause are common,
+    even if no one talked about them before.
+  </p>
+
+  <p>
+    You can describe what you’re experiencing below.
+    This helps you understand whether it’s commonly part
+    of menopause or worth checking in about.
+  </p>
+
+  <div class="ai-section">
+    <textarea
+      id="midlifeNormalInput"
+      class="ai-input"
+      placeholder="For example: sudden fatigue, brain fog, mood swings, warmth, joint pain..."></textarea>
+
+    <button id="midlifeNormalBtn" class="ai-soft-btn">
+      Help me understand
+    </button>
+
+    <div id="midlifeNormalResponse" class="ai-response"></div>
+  </div>
+`
+,
       sleep: `
   <h2>Sleep & Rest</h2>
 
